@@ -7,10 +7,13 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+// Config will contain all the configurables for the berfdei bot
 type Config struct {
-	AuthToken string `yaml:"authToken"`
+	AuthToken     string `yaml:"authToken"`
+	CommandPrefix string `yaml:"commandPrefix"`
 }
 
+// ReadTokenFromFile reads the auth token from a yaml file
 func ReadTokenFromFile(fileName string) (*Config, error) {
 	yamlFile, err := ioutil.ReadFile(fileName)
 	if err != nil {
