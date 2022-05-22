@@ -1,22 +1,25 @@
 package util
 
 import (
-	"gopkg.in/yaml.v2"
+	"fmt"
 	"io/ioutil"
-	"log"
+
+	"gopkg.in/yaml.v2"
 )
 
-type config struct {
-	authToken string
+type Config struct {
+	AuthToken string `yaml:"authToken"`
 }
 
-func (c *config) ReadToken() {
-	yamlFile, err := ioutil.ReadFile("conf.yaml")
+func ReadTokenFromFile(fileName string) (*Config, error) {
+	yamlFile, err := ioutil.ReadFile(fileName)
 	if err != nil {
-		log.Printf("yamlFile.Get err   #%v ", err)
+		return nil, fmt.Errorf("yamlFile.Get err   #%v ", err.Error())
 	}
-	err = yaml.Unmarshal(yamlFile, c)
+	var c *Config
+	err = yaml.Unmarshal(yamlFile, &c)
 	if err != nil {
-		log.Fatalf("Unmarshal: %v", err)
+		return nil, fmt.Errorf("unmarshal: %v", err.Error())
 	}
+	return c, nil
 }
